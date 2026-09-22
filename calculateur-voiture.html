@@ -2,454 +2,642 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Calculateur coût réel voiture – NUMYCAL</title>
-    <meta name="description" content="Calculez gratuitement le coût réel de votre voiture : carburant, assurance, entretien, pneus, dépréciation et coût au kilomètre.">
+<title>Calculateur coût réel voiture | NUMYCAL</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<meta name="description" content="Calculez gratuitement le coût réel de votre voiture par mois, par an et par kilomètre.">
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f6f8fc;
-            color: #101828;
-            line-height: 1.5;
-        }
+<style>
 
-        header {
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .nav {
-            max-width: 1200px;
-            margin: auto;
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #101828;
+}
 
-        .logo-img {
-            height: 60px;
-            width: auto;
-            max-width: 240px;
-            object-fit: contain;
-            display: block;
-        }
+header {
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
 
-        .back {
-            color: #1769FF;
-            text-decoration: none;
-            font-weight: 700;
-        }
+.nav {
+    max-width: 1100px;
+    margin: auto;
+    padding: 15px 20px;
 
-        .back:hover {
-            text-decoration: underline;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-        .hero {
-            max-width: 900px;
-            margin: 50px auto 30px;
-            padding: 0 20px;
-            text-align: center;
-        }
+.logo {
+    height: 60px;
+}
 
-        .hero h1 {
-            font-size: clamp(32px, 5vw, 48px);
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-        }
+.back {
+    color: #1769FF;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-        .hero p {
-            color: #667085;
-            font-size: 18px;
-            max-width: 700px;
-            margin: auto;
-        }
+.hero {
+    text-align: center;
+    padding: 45px 20px 30px;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
-        }
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
 
-        .calculator {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 35px rgba(16, 24, 40, 0.08);
-        }
+.hero p {
+    color: #667085;
+    font-size: 18px;
+}
 
-        .section-title {
-            font-size: 22px;
-            margin-bottom: 25px;
-        }
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
 
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
 
-        .field.full {
-            grid-column: 1 / -1;
-        }
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
 
-        label {
-            font-weight: 700;
-            font-size: 14px;
-        }
+.field input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
 
-        .hint {
-            color: #667085;
-            font-size: 12px;
-            font-weight: 400;
-        }
+.field small {
+    color: #667085;
+}
 
-        input {
-            width: 100%;
-            padding: 14px 15px;
-            border: 1px solid #d0d5dd;
-            border-radius: 10px;
-            font-size: 16px;
-            outline: none;
-            transition: 0.2s;
-        }
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
 
-        input:focus {
-            border-color: #1769FF;
-            box-shadow: 0 0 0 3px rgba(23, 105, 255, 0.12);
-        }
+button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 28px;
-            flex-wrap: wrap;
-        }
+.calculate {
+    background: #1769FF;
+    color: white;
+    flex: 1;
+}
 
-        button {
-            border: none;
-            border-radius: 10px;
-            padding: 14px 22px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+.reset {
+    background: #eee;
+}
 
-        .calculate {
-            background: #1769FF;
-            color: white;
-            flex: 1;
-        }
+.results {
+    display: none;
+    margin-top: 30px;
+}
 
-        .calculate:hover {
-            background: #0d5ce5;
-        }
+.results.visible {
+    display: block;
+}
 
-        .reset {
-            background: #eef2f6;
-            color: #344054;
-        }
+.results h2 {
+    margin-bottom: 20px;
+}
 
-        .results {
-            margin-top: 35px;
-            display: none;
-        }
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
 
-        .results.show {
-            display: block;
-        }
+.result {
+    background: #f4f7ff;
+    border: 1px solid #dce6ff;
+    padding: 20px;
+    border-radius: 12px;
+}
 
-        .results h2 {
-            margin-bottom: 18px;
-            font-size: 25px;
-        }
+.result.main {
+    background: #1769FF;
+    color: white;
+}
 
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
+.result span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
 
-        .result-card {
-            background: #f8faff;
-            border: 1px solid #dbe7ff;
-            border-radius: 15px;
-            padding: 20px;
-        }
+.result strong {
+    font-size: 25px;
+}
 
-        .result-card.primary {
-            background: #1769FF;
-            color: white;
-            border-color: #1769FF;
-        }
+.details {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 12px;
+}
 
-        .result-label {
-            font-size: 13px;
-            opacity: 0.75;
-            margin-bottom: 8px;
-        }
+footer {
+    margin-top: 50px;
+    background: #101828;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
 
-        .result-value {
-            font-size: 26px;
-            font-weight: 800;
-        }
+@media(max-width:700px) {
 
-        .details {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
+    .nav {
+        padding: 10px 15px;
+    }
 
-        .detail-card {
-            background: #fff;
-            border: 1px solid #eaecf0;
-            border-radius: 15px;
-            padding: 20px;
-        }
+    .logo {
+        height: 45px;
+    }
 
-        .detail-card h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
+    .hero h1 {
+        font-size: 30px;
+    }
 
-        .detail-card p {
-            color: #667085;
-            font-size: 14px;
-        }
+    .grid {
+        grid-template-columns: 1fr;
+    }
 
-        .breakdown {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f8f9fc;
-            border-radius: 15px;
-        }
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
 
-        .breakdown h3 {
-            margin-bottom: 20px;
-        }
+    .card {
+        padding: 20px;
+    }
 
-        .bar-row {
-            margin-bottom: 18px;
-        }
+    .buttons {
+        flex-direction: column;
+    }
+}
 
-        .bar-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 7px;
-        }
-
-        .bar {
-            height: 10px;
-            background: #e4e7ec;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: #1769FF;
-            border-radius: 20px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .info {
-            margin-top: 25px;
-            padding: 18px;
-            background: #f0f6ff;
-            border-left: 4px solid #1769FF;
-            border-radius: 8px;
-            color: #344054;
-            font-size: 14px;
-        }
-
-        footer {
-            background: #101828;
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        footer p {
-            opacity: 0.7;
-            font-size: 14px;
-        }
-
-        @media (max-width: 900px) {
-            .result-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .details {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 650px) {
-            .nav {
-                padding: 10px 15px;
-            }
-
-            .logo-img {
-                height: 50px;
-                max-width: 190px;
-            }
-
-            .hero {
-                margin-top: 35px;
-            }
-
-            .calculator {
-                padding: 20px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .field.full {
-                grid-column: auto;
-            }
-
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
-            button {
-                width: 100%;
-            }
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
 <header>
-    <div class="nav">
-        <a href="index.html">
-            <img src="NUMYCAL.png" alt="NUMYCAL" class="logo-img">
-        </a>
 
-        <a href="index.html" class="back">← Retour aux calculateurs</a>
-    </div>
+<div class="nav">
+
+<a href="index.html">
+<img src="NUMYCAL.png" class="logo" alt="NUMYCAL">
+</a>
+
+<a href="index.html" class="back">
+← Retour
+</a>
+
+</div>
+
 </header>
 
+
 <section class="hero">
-    <h1>Coût réel d'une voiture</h1>
-    <p>
-        Découvrez combien votre voiture vous coûte réellement chaque année,
-        chaque mois et par kilomètre.
-    </p>
+
+<h1>Coût réel d'une voiture</h1>
+
+<p>
+Calculez combien votre voiture vous coûte réellement.
+</p>
+
 </section>
+
 
 <main class="container">
 
-    <div class="calculator">
+<div class="card">
 
-        <h2 class="section-title">🚗 Informations sur votre véhicule</h2>
+<h2>🚗 Votre voiture</h2>
 
-        <div class="form-grid">
+<br>
 
-            <div class="field">
-                <label for="km">
-                    Kilométrage annuel
-                </label>
-                <input id="km" type="number" min="1" step="100" value="15000">
-                <span class="hint">Exemple : 15 000 km/an</span>
-            </div>
+<div class="grid">
 
-            <div class="field">
-                <label for="consumption">
-                    Consommation
-                </label>
-                <input id="consumption" type="number" min="0" step="0.1" value="6.5">
-                <span class="hint">Litres / 100 km</span>
-            </div>
+<div class="field">
 
-            <div class="field">
-                <label for="fuel">
-                    Prix du carburant
-                </label>
-                <input id="fuel" type="number" min="0" step="0.01" value="1.80">
-                <span class="hint">€/litre</span>
-            </div>
+<label>Kilométrage annuel</label>
 
-            <div class="field">
-                <label for="insurance">
-                    Assurance annuelle
-                </label>
-                <input id="insurance" type="number" min="0" step="10" value="700">
-                <span class="hint">€/an</span>
-            </div>
+<input id="km" type="number" value="15000">
 
-            <div class="field">
-                <label for="maintenance">
-                    Entretien annuel
-                </label>
-                <input id="maintenance" type="number" min="0" step="10" value="500">
-                <span class="hint">Révisions, vidanges, réparations...</span>
-            </div>
+<small>km par an</small>
 
-            <div class="field">
-                <label for="tires">
-                    Pneus par an
-                </label>
-                <input id="tires" type="number" min="0" step="10" value="250">
-                <span class="hint">Moyenne annuelle</span>
-            </div>
+</div>
 
-            <div class="field">
-                <label for="ct">
-                    Contrôle technique
-                </label>
-                <input id="ct" type="number" min="0" step="5" value="80">
-                <span class="hint">Prix d'un contrôle (environ tous les 2 ans)</span>
-            </div>
 
-            <div class="field">
-                <label for="other">
-                    Autres frais annuels
-                </label>
-                <input id="other" type="number" min="0" step="10" value="0">
-                <span class="hint">Parking, péages, lavage, accessoires...</span>
-            </div>
+<div class="field">
 
-            <div class="field">
-                <label for="purchase">
-                    Prix d'achat
-                </label>
-                <input id="purchase" type="number" min="0" step="100" value="20000">
-                <span class="hint">Prix payé pour le véhicule</span>
-            </div>
+<label>Consommation</label>
 
-            <div class="field">
-                <label for="years">
-                    Durée de détention
-                </label>
-                <inpu
+<input id="conso" type="number" step="0.1" value="6.5">
+
+<small>litres / 100 km</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Prix du carburant</label>
+
+<input id="carburant" type="number" step="0.01" value="1.80">
+
+<small>€ / litre</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Assurance</label>
+
+<input id="assurance" type="number" value="700">
+
+<small>€ par an</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Entretien</label>
+
+<input id="entretien" type="number" value="500">
+
+<small>€ par an</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Pneus</label>
+
+<input id="pneus" type="number" value="250">
+
+<small>€ par an</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Prix d'achat</label>
+
+<input id="achat" type="number" value="20000">
+
+<small>€</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Valeur de revente</label>
+
+<input id="revente" type="number" value="10000">
+
+<small>€ après votre période de détention</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Durée de détention</label>
+
+<input id="duree" type="number" value="5">
+
+<small>années</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Autres frais</label>
+
+<input id="autres" type="number" value="0">
+
+<small>€ par an</small>
+
+</div>
+
+</div>
+
+
+<div class="buttons">
+
+<button class="calculate" onclick="calculer()">
+Calculer
+</button>
+
+<button class="reset" onclick="resetCalcul()">
+Réinitialiser
+</button>
+
+</div>
+
+
+<section id="results" class="results">
+
+<h2>📊 Vos résultats</h2>
+
+
+<div class="results-grid">
+
+
+<div class="result main">
+
+<span>Coût annuel</span>
+
+<strong id="annuel">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Coût mensuel</span>
+
+<strong id="mensuel">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Coût au kilomètre</span>
+
+<strong id="kilometre">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Carburant / an</span>
+
+<strong id="coutCarburant">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Dépréciation / an</span>
+
+<strong id="depreciation">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Frais fixes / an</span>
+
+<strong id="fixes">0 €</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="details">
+
+<strong>Coût total sur la durée de détention :</strong>
+
+<span id="total">0 €</span>
+
+<br><br>
+
+<strong>Votre voiture vous coûte environ :</strong>
+
+<span id="resume">0 € par mois</span>
+
+</div>
+
+
+</section>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<p>
+© 2026 NUMYCAL — Tous vos calculs, simplement.
+</p>
+
+</footer>
+
+
+<script>
+
+function calculer() {
+
+    const km = Number(document.getElementById("km").value);
+
+    const conso = Number(document.getElementById("conso").value);
+
+    const carburant = Number(document.getElementById("carburant").value);
+
+    const assurance = Number(document.getElementById("assurance").value);
+
+    const entretien = Number(document.getElementById("entretien").value);
+
+    const pneus = Number(document.getElementById("pneus").value);
+
+    const achat = Number(document.getElementById("achat").value);
+
+    const revente = Number(document.getElementById("revente").value);
+
+    const duree = Number(document.getElementById("duree").value);
+
+    const autres = Number(document.getElementById("autres").value);
+
+
+    if (km <= 0 || duree <= 0) {
+
+        alert("Veuillez vérifier le kilométrage et la durée.");
+
+        return;
+
+    }
+
+
+    // Coût du carburant annuel
+
+    const coutCarburant =
+        km * conso / 100 * carburant;
+
+
+    // Dépréciation annuelle
+
+    const perte =
+        Math.max(0, achat - revente);
+
+    const depreciation =
+        perte / duree;
+
+
+    // Frais fixes
+
+    const fixes =
+        assurance +
+        entretien +
+        pneus +
+        autres;
+
+
+    // Coût annuel total
+
+    const annuel =
+        coutCarburant +
+        depreciation +
+        fixes;
+
+
+    // Coût mensuel
+
+    const mensuel =
+        annuel / 12;
+
+
+    // Coût par kilomètre
+
+    const kilometre =
+        annuel / km;
+
+
+    // Coût total
+
+    const total =
+        annuel * duree;
+
+
+    function euro(nombre, decimales = 0) {
+
+        return nombre.toLocaleString("fr-FR", {
+
+            minimumFractionDigits: decimales,
+
+            maximumFractionDigits: decimales
+
+        }) + " €";
+
+    }
+
+
+    document.getElementById("annuel").textContent =
+        euro(annuel);
+
+
+    document.getElementById("mensuel").textContent =
+        euro(mensuel);
+
+
+    document.getElementById("kilometre").textContent =
+        euro(kilometre, 2);
+
+
+    document.getElementById("coutCarburant").textContent =
+        euro(coutCarburant);
+
+
+    document.getElementById("depreciation").textContent =
+        euro(depreciation);
+
+
+    document.getElementById("fixes").textContent =
+        euro(fixes);
+
+
+    document.getElementById("total").textContent =
+        euro(total);
+
+
+    document.getElementById("resume").textContent =
+        euro(mensuel) + " par mois";
+
+
+    document.getElementById("results").classList.add("visible");
+
+}
+
+
+function resetCalcul() {
+
+    document.getElementById("km").value = 15000;
+
+    document.getElementById("conso").value = 6.5;
+
+    document.getElementById("carburant").value = 1.80;
+
+    document.getElementById("assurance").value = 700;
+
+    document.getElementById("entretien").value = 500;
+
+    document.getElementById("pneus").value = 250;
+
+    document.getElementById("achat").value = 20000;
+
+    document.getElementById("revente").value = 10000;
+
+    document.getElementById("duree").value = 5;
+
+    document.getElementById("autres").value = 0;
+
+    document.getElementById("results").classList.remove("visible");
+
+}
+
+</script>
+
+</body>
+
+</html>
 ```
-
