@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculateur carburant et coût trajet | NUMYCAL</title>
+
+<meta name="description" content="Calculez votre consommation de carburant, le coût d'un trajet, les litres consommés et votre budget carburant mensuel et annuel.">
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #101828;
+}
+
+header {
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.nav {
+    max-width: 1100px;
+    margin: auto;
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+}
+
+.back {
+    color: #1769FF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 45px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #667085;
+    font-size: 18px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.field input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.field small {
+    color: #667085;
+}
+
+.checkbox {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fc;
+    border-radius: 10px;
+}
+
+.checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+}
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calculate {
+    background: #1769FF;
+    color: white;
+    flex: 1;
+}
+
+.reset {
+    background: #eee;
+}
+
+.results {
+    display: none;
+    margin-top: 30px;
+}
+
+.results.visible {
+    display: block;
+}
+
+.results h2 {
+    margin-bottom: 20px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.result {
+    background: #f4f7ff;
+    border: 1px solid #dce6ff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.result.main {
+    background: #1769FF;
+    color: white;
+}
+
+.result span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.result strong {
+    font-size: 25px;
+}
+
+.details {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 12px;
+    line-height: 1.7;
+}
+
+footer {
+    margin-top: 50px;
+    background: #101828;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+@media(max-width:700px) {
+
+    .nav {
+        padding: 10px 15px;
+    }
+
+    .logo {
+        height: 70px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="nav">
+
+<a href="index.html">
+<img src="NUMYCAL.png" class="logo" alt="NUMYCAL">
+</a>
+
+<a href="index.html" class="back">
+← Retour
+</a>
+
+</div>
+
+</header>
+
+
+<section class="hero">
+
+<h1>Calculateur carburant</h1>
+
+<p>
+Calculez votre consommation et le coût réel de vos trajets.
+</p>
+
+</section>
+
+
+<main class="container">
+
+<div class="card">
+
+<h2>⛽ Votre trajet</h2>
+
+<br>
+
+<div class="grid">
+
+<div class="field">
+
+<label>Distance</label>
+
+<input id="distance" type="number" value="100">
+
+<small>km</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Consommation</label>
+
+<input id="conso" type="number" step="0.1" value="6.5">
+
+<small>litres / 100 km</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Prix du carburant</label>
+
+<input id="prix" type="number" step="0.01" value="1.80">
+
+<small>€ / litre</small>
+
+</div>
+
+
+<div class="field">
+
+<label>Nombre de trajets par mois</label>
+
+<input id="trajets" type="number" value="10">
+
+<small>trajets</small>
+
+</div>
+
+</div>
+
+
+<div class="checkbox">
+
+<label>
+
+<input type="checkbox" id="allerRetour">
+
+Trajet aller-retour
+
+</label>
+
+</div>
+
+
+<div class="buttons">
+
+<button class="calculate" onclick="calculer()">
+Calculer
+</button>
+
+<button class="reset" onclick="resetCalcul()">
+Réinitialiser
+</button>
+
+</div>
+
+
+<section id="results" class="results">
+
+<h2>📊 Vos résultats</h2>
+
+
+<div class="results-grid">
+
+
+<div class="result main">
+
+<span>Coût du trajet</span>
+
+<strong id="coutTrajet">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Carburant consommé</span>
+
+<strong id="litres">0 L</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Distance réelle</span>
+
+<strong id="distanceResultat">0 km</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Coût par kilomètre</span>
+
+<strong id="coutKm">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Coût mensuel</span>
+
+<strong id="coutMois">0 €</strong>
+
+</div>
+
+
+<div class="result">
+
+<span>Coût annuel</span>
+
+<strong id="coutAn">0 €</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="details">
+
+<strong>Résumé :</strong>
+
+<br>
+
+<span id="resume">
+Votre trajet vous coûte environ 0 €.
+</span>
+
+</div>
+
+
+</section>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<p>
+© 2026 NUMYCAL — Tous vos calculs, simplement.
+</p>
+
+</footer>
+
+
+<script>
+
+function calculer() {
+
+    const distance =
+        Number(document.getElementById("distance").value);
+
+    const conso =
+        Number(document.getElementById("conso").value);
+
+    const prix =
+        Number(document.getElementById("prix").value);
+
+    const trajets =
+        Number(document.getElementById("trajets").value);
+
+    const allerRetour =
+        document.getElementById("allerRetour").checked;
+
+
+    if (distance <= 0 || conso <= 0 || prix <= 0 || trajets <= 0) {
+
+        alert("Veuillez vérifier les valeurs saisies.");
+
+        return;
+
+    }
+
+
+    // Distance réelle selon aller-retour
+
+    const distanceReelle =
+        allerRetour ? distance * 2 : distance;
+
+
+    // Litres consommés
+
+    const litres =
+        distanceReelle * conso / 100;
+
+
+    // Coût du trajet
+
+    const coutTrajet =
+        litres * prix;
+
+
+    // Coût au kilomètre
+
+    const coutKm =
+        coutTrajet / distanceReelle;
+
+
+    // Coût mensuel
+
+    const coutMois =
+        coutTrajet * trajets;
+
+
+    // Coût annuel
+
+    const coutAn =
+        coutMois * 12;
+
+
+    function euro(nombre, decimales = 2) {
+
+        return nombre.toLocaleString("fr-FR", {
+
+            minimumFractionDigits: decimales,
+
+            maximumFractionDigits: decimales
+
+        }) + " €";
+
+    }
+
+
+    function litresFormat(nombre) {
+
+        return nombre.toLocaleString("fr-FR", {
+
+            minimumFractionDigits: 2,
+
+            maximumFractionDigits: 2
+
+        }) + " L";
+
+    }
+
+
+    function kmFormat(nombre) {
+
+        return nombre.toLocaleString("fr-FR", {
+
+            maximumFractionDigits: 0
+
+        }) + " km";
+
+    }
+
+
+    document.getElementById("coutTrajet").textContent =
+        euro(coutTrajet);
+
+
+    document.getElementById("litres").textContent =
+        litresFormat(litres);
+
+
+    document.getElementById("distanceResultat").textContent =
+        kmFormat(distanceReelle);
+
+
+    document.getElementById("coutKm").textContent =
+        euro(coutKm, 2);
+
+
+    document.getElementById("coutMois").textContent =
+        euro(coutMois);
+
+
+    document.getElementById("coutAn").textContent =
+        euro(coutAn);
+
+
+    document.getElementById("resume").textContent =
+        "Votre trajet de " +
+        kmFormat(distanceReelle) +
+        " vous coûte environ " +
+        euro(coutTrajet) +
+        ". Avec " +
+        trajets +
+        " trajet(s) par mois, votre budget carburant est d'environ " +
+        euro(coutMois) +
+        " par mois.";
+
+
+    document.getElementById("results").classList.add("visible");
+
+}
+
+
+function resetCalcul() {
+
+    document.getElementById("distance").value = 100;
+
+    document.getElementById("conso").value = 6.5;
+
+    document.getElementById("prix").value = 1.80;
+
+    document.getElementById("trajets").value = 10;
+
+    document.getElementById("allerRetour").checked = false;
+
+    document.getElementById("results").classList.remove("visible");
+
+}
+
+</script>
+
+</body>
+
+</html>
