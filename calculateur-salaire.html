@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calculateur salaire brut net | NUMYCAL</title>
+
+    <meta name="description" content="Calculez gratuitement votre salaire net à partir de votre salaire brut mensuel ou annuel. Estimation simple et rapide.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f9fc;
+            color: #101828;
+            line-height: 1.5;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: auto;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            height: 100px;
+            width: auto;
+        }
+
+        .back {
+            color: #1769ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        main {
+            max-width: 850px;
+            margin: auto;
+            padding: 60px 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .intro h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .intro h1 span {
+            color: #1769ff;
+        }
+
+        .intro p {
+            color: #667085;
+            font-size: 18px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #eaecf0;
+            box-shadow: 0 15px 40px rgba(16, 24, 40, 0.07);
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d0d5dd;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #1769ff;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #667085;
+            margin-top: 6px;
+        }
+
+        .btn {
+            width: 100%;
+            background: #1769ff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0f56d6;
+        }
+
+        .results {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .result {
+            background: #f9fafb;
+            border: 1px solid #eaecf0;
+            padding: 20px;
+            border-radius: 14px;
+        }
+
+        .result.main {
+            grid-column: 1 / -1;
+            background: #eef4ff;
+            border-color: #d6e4ff;
+        }
+
+        .result span {
+            display: block;
+            color: #667085;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .result strong {
+            font-size: 26px;
+            color: #1769ff;
+        }
+
+        .note {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff8e6;
+            border: 1px solid #f2d58a;
+            border-radius: 10px;
+            color: #7a5b00;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #101828;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 20px;
+            text-align: center;
+        }
+
+        .footer-content p {
+            color: #98a2b3;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 700px) {
+
+            .logo {
+                height: 65px;
+            }
+
+            main {
+                padding: 40px 15px;
+            }
+
+            .intro h1 {
+                font-size: 32px;
+            }
+
+            .calculator {
+                padding: 22px;
+            }
+
+            .results {
+                grid-template-columns: 1fr;
+            }
+
+            .result.main {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav">
+
+        <a href="index.html">
+            <img src="NUMYCAL.png" class="logo" alt="NUMYCAL">
+        </a>
+
+        <a href="index.html" class="back">← Retour</a>
+
+    </div>
+</header>
+
+<main>
+
+    <div class="intro">
+
+        <h1>Calculateur <span>brut → net</span></h1>
+
+        <p>
+            Estimez rapidement votre salaire net à partir de votre salaire brut.
+        </p>
+
+    </div>
+
+    <div class="calculator">
+
+        <div class="field">
+
+            <label for="brut">
+                Salaire brut mensuel
+            </label>
+
+            <input
+                type="number"
+                id="brut"
+                value="2500"
+                min="0"
+                step="50"
+            >
+
+            <div class="hint">
+                Exemple : 2 500 € brut par mois
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label for="statut">
+                Statut professionnel
+            </label>
+
+            <select id="statut">
+
+                <option value="noncadre">
+                    Salarié non-cadre
+                </option>
+
+                <option value="cadre">
+                    Cadre
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label for="impot">
+                Prélèvement à la source
+            </label>
+
+            <input
+                type="number"
+                id="impot"
+                value="0"
+                min="0"
+                max="50"
+                step="0.1"
+            >
+
+            <div class="hint">
+                Indiquez votre taux d'impôt si vous souhaitez estimer le net après impôt.
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="calculerSalaire()">
+            Calculer mon salaire
+        </button>
+
+        <div class="results">
+
+            <div class="result main">
+
+                <span>
+                    Salaire net avant impôt
+                </span>
+
+                <strong id="net">
+                    0 €
+                </strong>
+
+            </div>
+
+            <div class="result">
+
+                <span>
+                    Salaire brut annuel
+                </span>
+
+                <strong id="brutAnnuel">
+                    0 €
+                </strong>
+
+            </div>
+
+            <div class="result">
+
+                <span>
+                    Salaire net annuel avant impôt
+                </span>
+
+                <strong id="netAnnuel">
+                    0 €
+                </strong>
+
+            </div>
+
+            <div class="result">
+
+                <span>
+                    Net après prélèvement
+                </span>
+
+                <strong id="netApresImpot">
+                    0 €
+                </strong>
+
+            </div>
+
+            <div class="result">
+
+                <span>
+                    Cotisations estimées
+                </span>
+
+                <strong id="cotisations">
+                    0 €
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="note">
+            ⚠️ Cette estimation est indicative. Le salaire net réel dépend notamment
+            des cotisations, de la convention collective, du statut, des avantages
+            et de la situation individuelle du salarié.
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+
+    <div class="footer-content">
+
+        <strong>NUMYCAL</strong>
+
+        <p>
+            Tous vos calculs, simplement.
+        </p>
+
+        <p>
+            © 2026 NUMYCAL — Tous droits réservés.
+        </p>
+
+    </div>
+
+</footer>
+
+<script>
+
+function calculerSalaire() {
+
+    const brut = parseFloat(
+        document.getElementById("brut").value
+    ) || 0;
+
+    const statut =
+        document.getElementById("statut").value;
+
+    const tauxImpot =
+        parseFloat(
+            document.getElementById("impot").value
+        ) || 0;
+
+    let tauxCotisations;
+
+    if (statut === "cadre") {
+
+        tauxCotisations = 0.25;
+
+    } else {
+
+        tauxCotisations = 0.23;
+
+    }
+
+    const cotisations =
+        brut * tauxCotisations;
+
+    const net =
+        brut - cotisations;
+
+    const brutAnnuel =
+        brut * 12;
+
+    const netAnnuel =
+        net * 12;
+
+    const netApresImpot =
+        net * (1 - tauxImpot / 100);
+
+    document.getElementById("net").textContent =
+        formatEuro(net);
+
+    document.getElementById("brutAnnuel").textContent =
+        formatEuro(brutAnnuel);
+
+    document.getElementById("netAnnuel").textContent =
+        formatEuro(netAnnuel);
+
+    document.getElementById("netApresImpot").textContent =
+        formatEuro(netApresImpot);
+
+    document.getElementById("cotisations").textContent =
+        formatEuro(cotisations);
+
+}
+
+function formatEuro(nombre) {
+
+    return nombre.toLocaleString("fr-FR", {
+        style: "currency",
+        currency: "EUR"
+    });
+
+}
+
+calculerSalaire();
+
+</script>
+
+</body>
+</html>
