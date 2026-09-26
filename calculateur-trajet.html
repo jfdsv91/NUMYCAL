@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculateur coût d'un trajet | numycal</title>
+
+<meta name="description" content="Calculez gratuitement le coût de votre trajet en voiture, aller simple ou aller-retour.">
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #101828;
+}
+
+header {
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.nav {
+    max-width: 1100px;
+    margin: auto;
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+}
+
+.back {
+    color: #1769FF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 45px 20px 30px;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #667085;
+    font-size: 18px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.field input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.field small {
+    color: #667085;
+}
+
+.options {
+    margin-top: 25px;
+}
+
+.options label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.options select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+}
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calculate {
+    background: #1769FF;
+    color: white;
+    flex: 1;
+}
+
+.reset {
+    background: #eee;
+}
+
+.results {
+    display: none;
+    margin-top: 30px;
+}
+
+.results.visible {
+    display: block;
+}
+
+.results h2 {
+    margin-bottom: 20px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.result {
+    background: #f4f7ff;
+    border: 1px solid #dce6ff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.result.main {
+    background: #1769FF;
+    color: white;
+}
+
+.result span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.result strong {
+    font-size: 25px;
+}
+
+.details {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 12px;
+}
+
+.details span {
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 50px;
+    background: #101828;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+@media(max-width:700px) {
+
+    .nav {
+        padding: 10px 15px;
+    }
+
+    .logo {
+        height: 60px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="nav">
+
+<a href="index.html">
+<img src="NUMYCAL.png" class="logo" alt="NUMYCAL">
+</a>
+
+<a href="index.html" class="back">
+← Retour
+</a>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<h1>Coût d'un trajet</h1>
+
+<p>
+Calculez rapidement le coût de votre déplacement en voiture.
+</p>
+
+</section>
+
+<main class="container">
+
+<div class="card">
+
+<h2>🛣️ Votre trajet</h2>
+
+<br>
+
+<div class="grid">
+
+<div class="field">
+
+<label>Distance</label>
+
+<input id="distance" type="number" step="0.1" value="100">
+
+<small>km pour un aller</small>
+
+</div>
+
+<div class="field">
+
+<label>Consommation</label>
+
+<input id="conso" type="number" step="0.1" value="6.5">
+
+<small>litres / 100 km</small>
+
+</div>
+
+<div class="field">
+
+<label>Prix du carburant</label>
+
+<input id="carburant" type="number" step="0.01" value="1.80">
+
+<small>€ / litre</small>
+
+</div>
+
+<div class="field">
+
+<label>Nombre de trajets</label>
+
+<input id="trajets" type="number" value="1" min="1">
+
+<small>nombre de déplacements</small>
+
+</div>
+
+</div>
+
+<div class="options">
+
+<label>Type de trajet</label>
+
+<select id="typeTrajet">
+
+<option value="1">Aller simple</option>
+
+<option value="2">Aller-retour</option>
+
+</select>
+
+</div>
+
+<div class="options">
+
+<label>Nombre de passagers</label>
+
+<input id="passagers" type="number" value="1" min="1">
+
+</div>
+
+<div class="buttons">
+
+<button class="calculate" onclick="calculer()">
+Calculer
+</button>
+
+<button class="reset" onclick="resetCalcul()">
+Réinitialiser
+</button>
+
+</div>
+
+<section id="results" class="results">
+
+<h2>📊 Vos résultats</h2>
+
+<div class="results-grid">
+
+<div class="result main">
+
+<span>Coût total</span>
+
+<strong id="total">0 €</strong>
+
+</div>
+
+<div class="result">
+
+<span>Distance totale</span>
+
+<strong id="distanceTotal">0 km</strong>
+
+</div>
+
+<div class="result">
+
+<span>Carburant consommé</span>
+
+<strong id="litres">0 L</strong>
+
+</div>
+
+<div class="result">
+
+<span>Coût par trajet</span>
+
+<strong id="coutTrajet">0 €</strong>
+
+</div>
+
+<div class="result">
+
+<span>Coût par personne</span>
+
+<strong id="coutPersonne">0 €</strong>
+
+</div>
+
+<div class="result">
+
+<span>Coût au kilomètre</span>
+
+<strong id="coutKm">0 €</strong>
+
+</div>
+
+</div>
+
+<div class="details">
+
+<strong>Résumé :</strong>
+
+<br><br>
+
+<span id="resume">
+0 km parcourus pour un coût de 0 €
+</span>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+<footer>
+
+<p>
+© 2026 numycal — Tous vos calculs, simplement.
+</p>
+
+</footer>
+
+<script>
+
+function calculer() {
+
+    const distance =
+        Number(document.getElementById("distance").value);
+
+    const conso =
+        Number(document.getElementById("conso").value);
+
+    const carburant =
+        Number(document.getElementById("carburant").value);
+
+    const trajets =
+        Number(document.getElementById("trajets").value);
+
+    const typeTrajet =
+        Number(document.getElementById("typeTrajet").value);
+
+    const passagers =
+        Number(document.getElementById("passagers").value);
+
+
+    if (
+        distance <= 0 ||
+        conso <= 0 ||
+        carburant <= 0 ||
+        trajets <= 0 ||
+        passagers <= 0
+    ) {
+
+        alert("Veuillez vérifier les valeurs saisies.");
+
+        return;
+
+    }
+
+
+    // Distance totale
+
+    const distanceTotale =
+        distance * typeTrajet * trajets;
+
+
+    // Quantité de carburant
+
+    const litres =
+        distanceTotale * conso / 100;
+
+
+    // Coût total
+
+    const total =
+        litres * carburant;
+
+
+    // Coût par trajet
+
+    const coutTrajet =
+        total / trajets;
+
+
+    // Coût par personne
+
+    const coutPersonne =
+        total / passagers;
+
+
+    // Coût au kilomètre
+
+    const coutKm =
+        total / distanceTotale;
+
+
+    function euro(nombre, decimales = 2) {
+
+        return nombre.toLocaleString("fr-FR", {
+
+            minimumFractionDigits: decimales,
+
+            maximumFractionDigits: decimales
+
+        }) + " €";
+
+    }
+
+
+    document.getElementById("total").textContent =
+        euro(total);
+
+
+    document.getElementById("distanceTotal").textContent =
+        distanceTotale.toLocaleString("fr-FR") + " km";
+
+
+    document.getElementById("litres").textContent =
+        litres.toLocaleString("fr-FR", {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1
+        }) + " L";
+
+
+    document.getElementById("coutTrajet").textContent =
+        euro(coutTrajet);
+
+
+    document.getElementById("coutPersonne").textContent =
+        euro(coutPersonne);
+
+
+    document.getElementById("coutKm").textContent =
+        euro(coutKm);
+
+
+    document.getElementById("resume").textContent =
+        distanceTotale.toLocaleString("fr-FR") +
+        " km parcourus pour un coût de " +
+        euro(total);
+
+
+    document.getElementById("results")
+        .classList.add("visible");
+
+}
+
+
+function resetCalcul() {
+
+    document.getElementById("distance").value = 100;
+
+    document.getElementById("conso").value = 6.5;
+
+    document.getElementById("carburant").value = 1.80;
+
+    document.getElementById("trajets").value = 1;
+
+    document.getElementById("typeTrajet").value = 1;
+
+    document.getElementById("passagers").value = 1;
+
+    document.getElementById("results")
+        .classList.remove("visible");
+
+}
+
+</script>
+
+</body>
+</html>
